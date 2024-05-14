@@ -3,25 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>上传并展示 CSV 文件</title>
+    <title>题库</title>
 </head>
 <body>
-    <h1>上传并展示 CSV 文件</h1>
-    <input type="file" accept=".csv" onchange="handleFileUpload(event)">
-    <div id="csvData"></div>
+    <h1>题库</h1>
+    <label for="question">题目:</label>
+    <input type="text" id="question"><br><br>
+    <label for="answer">答案:</label>
+    <input type="text" id="answer"><br><br>
+    <button onclick="addToQuestionBank()">加入题库</button>
 
     <script>
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
+        function addToQuestionBank() {
+            // 获取题目和答案输入框中的内容
+            var question = document.getElementById("question").value;
+            var answer = document.getElementById("answer").value;
 
-            reader.onload = function(event) {
-                const csvData = event.target.result;
-                // 在这里处理 csvData，可以将其解析为数组或对象，并在页面上展示
-                document.getElementById('csvData').innerText = csvData;
-            };
+            // 格式化为题目和答案之间以逗号分隔的形式
+            var entry = question + "," + answer + "\n";
 
-            reader.readAsText(file);
+            // 将内容追加到本地存储文件
+            appendToFile(entry);
+        }
+
+        function appendToFile(data) {
+            // 从本地存储中获取已有的数据，如果不存在则为空字符串
+            var existingData = localStorage.getItem("questionBank") || "";
+
+            // 将新数据追加到已有数据后面
+            var newData = existingData + data;
+
+            // 更新本地存储中的数据
+            localStorage.setItem("questionBank", newData);
         }
     </script>
 </body>
