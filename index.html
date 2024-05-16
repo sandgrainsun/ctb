@@ -1,4 +1,11 @@
-[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Game</title>
+<script>
+// 题库数据
+const quizData = [
   {
     "source": "wknd1)1",
     "question": "Are the __________(strawberry) sweet or sour?",
@@ -174,4 +181,96 @@
     "question": "__________morning, the sun rises in the sky. But__________noon, my shadow ____________(grow) short. And ________afternoon, the sun goes down.",
     "answer": "In the at grows in the"
   }
-]
+];
+
+let totalAnswered = 0;
+let correctAnswers = 0;
+let incorrectAnswers = 0;
+let remainingQuestions = [...quizData]; // 未回答或回答错误的题目
+
+// 语音合成函数
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(voice => voice.name.includes('Google US English Female')) || voices.find(voice => voice.gender === 'female') || voices[0];
+    speech.voice = femaleVoice;
+    window.speechSynthesis.speak(speech);
+}
+
+// 提交答案的处理
+function submitAnswer() {
+    const userAnswer = document.getElementById('answer').value;
+    const currentQuestion = remainingQuestions[0]; // 当前题目
+
+    totalAnswered++;
+    if (userAnswer === currentQuestion.answer) {
+        correctAnswers++;
+        speak("oh yes!"); // 正确时播放 "oh yes!"
+        // 从剩余题目中移除
+        remainingQuestions.shift();
+    } else {
+        speak("oh no!"); // 正确时播放 "oh no!"
+        incorrectAnswers++;
+        showAnswerDialog(currentQuestion.question, currentQuestion.answer, userAnswer);
+    }
+    updateStats();
+    displayQuestion(); // 显示下一个问题
+}
+
+// 显示题目
+function displayQuestion() {
+    if (remainingQuestions.length === 0) {
+        speak("Test Completed!!!");
+        return;
+    }
+
+    // 随机选择一个题目
+    const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+    const currentQuestion = remainingQuestions[randomIndex];
+    // 将选择的题目放到数组的开头
+    [remainingQuestions[0], remainingQuestions[randomIndex]] = [currentQuestion, remainingQuestions[0]];
+    document.getElementById('question').textContent = currentQuestion.question;
+    document.getElementById('answer').value = ''; // 清空答案输入框
+}
+
+// 更新统计数据
+function updateStats() {
+    const accuracy = (correctAnswers / totalAnswered * 100).toFixed(2);
+    document.getElementById('stats').textContent = 
+        `Answered: ${totalAnswered}; Correct: ${correctAnswers}; Incorrect: ${incorrectAnswers}; Accuracy: ${accuracy}%; Remain:${remainingQuestions.length}`;
+}
+
+// 显示答案对话框
+function showAnswerDialog(question, correctAnswer, userAnswer) {
+    const message = `Question: ${question}\nCorrect Answer: ${correctAnswer}\nYour Answer: ${userAnswer}`;
+    alert(message);
+}
+
+// 页面加载完成后初始化
+window.onload = function() {
+    document.getElementById('totalQuestions').textContent = quizData.length;
+    displayQuestion();
+    updateStats();
+
+    // 监听回车键提交答案
+    document.getElementById('answer').addEventListener('keypress', function(event) {
+        if (event.keyCode === 13) { // 回车键的键码是13
+            submitAnswer();
+        }
+    });
+
+    // 点击提交按钮提交答案
+    document.getElementById('submit').onclick = submitAnswer;
+};
+</script>
+</head>
+<body>
+<h2>Quiz Game</h2>
+<p>Total Questions: <span id="totalQuestions">0</span></p>
+<p>Question: <span id="question"></span></p>
+<input type="text" id="answer" placeholder="Enter your answer here">
+<button id="submit">Submit Answer</button>
+<h3>Stats</h3>
+<p id="stats">Answered: 0; Correct: 0; Incorrect: 0; Accuracy: 0%</p>
+</body>
+</html>
