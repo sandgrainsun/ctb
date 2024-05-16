@@ -1,278 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Quiz Game</title>
-<script>
-// 题库数据
-const quizData = [
-
-    {
-        "source": "wknd1)",
-        "question": "1. Are the __________(strawberry) sweet or sour?",
-        "answer": "strawberries"
-    },
-    {
-        "source": "wknd1)",
-        "question": "2. A pair of glasses ____on the bed. It's my mother's. A. is B. are C. am",
-        "answer": "A"
-    },
-    {
-        "source": "wknd1)",
-        "question": "3. I can't write with the pencil. It's not__________. A. sharp B. hard C. blunt",
-        "answer": "A"
-    },
-    {
-        "source": "wknd1)",
-        "question": "4. Are insects color-blind? (negative answer)_____________",
-        "answer": "No, they aren't."
-    },
-    {
-        "source": "wknd2)",
-        "question": "1. what does the sun do it rises in the morning (copy sentences in correct format)_______________",
-        "answer": "What does the sun do? It rises in the morning."
-    },
-    {
-        "source": "wknd2)",
-        "question": "2. at noon the sun is high in the sky the trees shadow grows short",
-        "answer": "At noon, the sun is high in the sky. The tree's shadow grows short."
-    },
-    {
-        "source": "wknd2)",
-        "question": "3. 'ea' T or F? [tea meat]",
-        "answer": "T"
-    },
-    {
-        "source": "wknd2)",
-        "question": "4. 'a' T or F? [shadow many]",
-        "answer": "F"
-    },
-    {
-        "source": "wknd2)",
-        "question": "5. Can you __(see) the sun in the evening? No, I____(can not).",
-        "answer": "see can't"
-    },
-    {
-        "source": "wknd2)",
-        "question": "6. Those books are thick and new. (negative while same meaning)_______________",
-        "answer": "Those books aren't thin or old."
-    },
-    {
-        "source": "wknd2)",
-        "question": "7. Is this cat white? (positive sentence)__________",
-        "answer": "This cat is white."
-    },
-    {
-        "source": "wknd3)",
-        "question": "1. _________(not bite) me, please!",
-        "answer": "Don't bite"
-    },
-    {
-        "source": "wknd3)",
-        "question": "2. We_______(have) any fruit. Let's go and ____(buy) some now.",
-        "answer": "don't have buy"
-    },
-    {
-        "source": "wknd3)",
-        "question": "3. ___water___in the glass? A. How many....are there B. How much....are there C. How much....is there",
-        "answer": "C"
-    },
-    {
-        "source": "wknd3)",
-        "question": "4. Jack has a brother. His brother's name is Mike. Sometimes Jack eats some of his brother's apples. And his brother often hits him for that. The teacher asked Jack and his classmates If your brother has five apples, and you have eaten three of them, tell me... He'll certainly give me a good beating,Jack says quickly. ( ) It's not right for _____ to hit Jack. A. Mike B. the teacher C. Jack's classmates.",
-        "answer": "A"
-    },
-    {
-        "source": "wknd4)",
-        "question": "1. who elsewould like to join the volleyball club(make full sentence with correct punctuation) _______________________________",
-        "answer": "Who else would like to join the volleyball club?"
-    },
-    {
-        "source": "wknd4)",
-        "question": "2. Mike__(have) nine apple pies. He ___(give) me five.",
-        "answer": "has gives"
-    },
-    {
-        "source": "wknd4)",
-        "question": "3. My mother never ___(sing) and ___(dance) on Sundays.",
-        "answer": "sings dances"
-    },
-    {
-        "source": "wknd4)",
-        "question": "4. Daniel watches TV every evening. (change to negative)______________",
-        "answer": "Daniel doesn't watch TV every evening."
-    },
-    {
-        "source": "wknd4)",
-        "question": "5. We go to school every morning. (change to negative)________________",
-        "answer": "We don't go to school every morning."
-    },
-    {
-        "source": "wknd4)",
-        "question": "6. He speaks English very well. (change to negative) _______________",
-        "answer": "He doesn't speak English very well."
-    },
-    {
-        "source": "wknd4)",
-        "question": "7. The moon is like a ball. It looks bigger when it is much nearer to the earth. But it is much smaller than the sun. It is smaller than the stars. The light of the moon comes from the sun. It has no light of its own. ( )The moon is ___ than the stars. A. bigger B. brighter C. smaller D. Darker",
-        "answer": "C"
-    },
-    {
-        "source": "wknd4)",
-        "question": "8. The stars look smaller than the sun and the moon. But most of the stars are bigger than the sun.",
-        "answer": ""
-    },
-    {
-        "source": "Module1)",
-        "question": "1. Listen and choose. ( ) A. There is an apple. B. It's an apple. C. There are four.",
-        "answer": "A"
-    },
-    {
-        "source": "Module1)",
-        "question": "2. Listen, 'T' or 'F'?. ( ) Miss Fang can make a phone call to her children to ask for help.",
-        "answer": "F"
-    },
-    {
-        "source": "Module1)",
-        "question": "3. Listen and write the word. It is _____________",
-        "answer": "Sunday"
-    },
-    {
-        "source": "Module1)",
-        "question": "4. Listen and write the word. She is sitting under an _____________",
-        "answer": "umbrella"
-    },
-    {
-        "source": "Module1)",
-        "question": "5. [Complete with words in same kind.] here are some apples, _pe_____ and an _or_________ on the table.",
-        "answer": "peaches orange"
-    },
-    {
-        "source": "Module1)",
-        "question": "6. [knife come rise boy one have take do] Mr Li _________ a walk on the path after dinner yesterday.",
-        "answer": "took"
-    },
-    {
-        "source": "Module1)",
-        "question": "7. [knife come rise boy one have take do] Here _______ a man on an elephant.",
-        "answer": "comes"
-    },
-    {
-        "source": "Module1)",
-        "question": "8. I always sit in the sun and have a rest ___________sunny afternoons. A. in B. at C. on",
-        "answer": "C"
-    },
-    {
-        "source": "Module1)",
-        "question": "9. William________(want) to go to the next town, but he _____(not) know the way.",
-        "answer": "wants doesn't"
-    },
-    {
-        "source": "Module1)",
-        "question": "10. William thinks the bird and the stone are a man and _______(ask) some questions. At las the bird ____(fly) away.",
-        "answer": "asks flies"
-    },
-    {
-        "source": "Module1)",
-        "question": "11. Some kiwi fruit come from the south of China. The kiwi fruit from the other countries are very expensive. I like the kiwi fruit from China, because the are cheap and also very tasty. Q: Which kiwi fruit do you like, from the south of China or from the other countries? Why?_____________",
-        "answer": "I like kiwi fruit from the south of China. Because they are cheap and also very tasty."
-    },
-    {
-        "source": "Module1)",
-        "question": "12. __________morning, the sun rises in the sky. But__________noon, my shadow ____________(grow) short. And ________afternoon, the sun goes down.",
-        "answer": "In the at grows in the"
-    }
-
-];
-
-let totalAnswered = 0;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
-let remainingQuestions = [...quizData]; // 未回答或回答错误的题目
-
-// 语音合成函数
-function speak(text) {
-    const speech = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(voice => voice.name.includes('Google US English Female')) || voices.find(voice => voice.gender === 'female') || voices[0];
-    speech.voice = femaleVoice;
-    window.speechSynthesis.speak(speech);
-}
-
-// 提交答案的处理
-function submitAnswer() {
-    const userAnswer = document.getElementById('answer').value;
-    const currentQuestion = remainingQuestions[0]; // 当前题目
-
-    totalAnswered++;
-    if (userAnswer === currentQuestion.answer) {
-        correctAnswers++;
-        speak("oh yes!"); // 正确时播放 "oh yes!"
-        // 从剩余题目中移除
-        remainingQuestions.shift();
-    } else {
-        speak("oh no!"); // 正确时播放 "oh no!"
-        incorrectAnswers++;
-        showAnswerDialog(currentQuestion.question, currentQuestion.answer, userAnswer);
-    }
-    updateStats();
-    displayQuestion(); // 显示下一个问题
-}
-
-// 显示题目
-function displayQuestion() {
-    if (remainingQuestions.length === 0) {
-        speak("Test Completed!!!");
-        return;
-    }
-
-    // 随机选择一个题目
-    const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
-    const currentQuestion = remainingQuestions[randomIndex];
-    // 将选择的题目放到数组的开头
-    [remainingQuestions[0], remainingQuestions[randomIndex]] = [currentQuestion, remainingQuestions[0]];
-    document.getElementById('question').textContent = currentQuestion.question;
-    document.getElementById('answer').value = ''; // 清空答案输入框
-}
-
-// 更新统计数据
-function updateStats() {
-    const accuracy = (correctAnswers / totalAnswered * 100).toFixed(2);
-    document.getElementById('stats').textContent = 
-        `Answered: ${totalAnswered}; Correct: ${correctAnswers}; Incorrect: ${incorrectAnswers}; Accuracy: ${accuracy}%; Remain:${remainingQuestions.length}`;
-}
-
-// 显示答案对话框
-function showAnswerDialog(question, correctAnswer, userAnswer) {
-    const message = `Question: ${question}\nCorrect Answer: ${correctAnswer}\nYour Answer: ${userAnswer}`;
-    alert(message);
-}
-
-// 页面加载完成后初始化
-window.onload = function() {
-    document.getElementById('totalQuestions').textContent = quizData.length;
-    displayQuestion();
-    updateStats();
-
-    // 监听回车键提交答案
-    document.getElementById('answer').addEventListener('keypress', function(event) {
-        if (event.keyCode === 13) { // 回车键的键码是13
-            submitAnswer();
-        }
-    });
-
-    // 点击提交按钮提交答案
-    document.getElementById('submit').onclick = submitAnswer;
-};
-</script>
-</head>
-<body>
-<h2>Quiz Game</h2>
-<p>Total Questions: <span id="totalQuestions">0</span></p>
-<p>Question: <span id="question"></span></p>
-<input type="text" id="answer" placeholder="Enter your answer here">
-<button id="submit">Submit Answer</button>
-<h3>Stats</h3>
-<p id="stats">Answered: 0; Correct: 0; Incorrect: 0; Accuracy: 0%</p>
-</body>
-</html>
+[
+  {
+    "source": "wknd1)1",
+    "question": "Are the __________(strawberry) sweet or sour?",
+    "answer": "strawberries"
+  },
+  {
+    "source": "wknd1)2",
+    "question": "A pair of glasses ____on the bed. It's my mother's.  [is | are | am]",
+    "answer": "is"
+  },
+  {
+    "source": "wknd1)3",
+    "question": "I can't write with the pencil. It's not__________.  [sharp | hard | blunt]",
+    "answer": "sharp"
+  },
+  {
+    "source": "wknd1)4",
+    "question": "Are insects color-blind? (negative answer)_____________",
+    "answer": "No they aren't."
+  },
+  {
+    "source": "wknd2)1",
+    "question": "what does the sun do it rises in the morning (copy sentences in correct format)_______________",
+    "answer": "What does the sun do? It rises in the morning."
+  },
+  {
+    "source": "wknd2)2",
+    "question": "at noon the sun is high in the sky the trees shadow grows short",
+    "answer": "At noon, the sun is high in the sky. The tree's shadow grows short."
+  },
+  {
+    "source": "wknd2)3",
+    "question": "'ea' T or F? [tea meat]",
+    "answer": "T"
+  },
+  {
+    "source": "wknd2)4",
+    "question": "'a' T or F? [shadow many]",
+    "answer": "F"
+  },
+  {
+    "source": "wknd2)5",
+    "question": "Can you __(see) the sun in the evening? No, I____(can not).",
+    "answer": "see can't"
+  },
+  {
+    "source": "wknd2)6",
+    "question": "Those books are thick and new. (negative while same meaning)_______________",
+    "answer": "Those books aren't thin or old."
+  },
+  {
+    "source": "wknd2)7",
+    "question": "Is this cat white? (positive sentence)__________",
+    "answer": "This cat is white."
+  },
+  {
+    "source": "wknd3)1",
+    "question": "_________(not bite) me, please!",
+    "answer": "Don't bite"
+  },
+  {
+    "source": "wknd3)2",
+    "question": "We_______(have) any fruit. Let's go and ____(buy) some now.",
+    "answer": "don't have buy"
+  },
+  {
+    "source": "wknd3)3",
+    "question": "___water___in the glass? A. How many....are there B. How much....are there C. How much....is there",
+    "answer": "C"
+  },
+  {
+    "source": "wknd3)4",
+    "question": "Jack has a brother. His brother's name is Mike. <br>Sometimes Jack eats some of his brother's apples. And his brother often hits him for that. <br>One day, Jack's teacher asked Jack and his classmates: \"If your brother has five apples, and you have eaten three of them, tell me...\" <br>\"He'll certainly give me a good beating,\" Jack says quickly.    <br><br>( ) It's not right for _____ to hit Jack. A. Mike B. the teacher C. Jack's classmates.",
+    "answer": "A"
+  },
+  {
+    "source": "wknd4)1",
+    "question": "who elsewould like to join the volleyball club(make full sentence with correct punctuation) _______________________________",
+    "answer": "Who else would like to join the volleyball club?"
+  },
+  {
+    "source": "wknd4)2",
+    "question": "Mike__(have) nine apple pies. He ___(give) me five.",
+    "answer": "has gives"
+  },
+  {
+    "source": "wknd4)3",
+    "question": "My mother never ___(sing) and ___(dance) on Sundays.",
+    "answer": "sings dances"
+  },
+  {
+    "source": "wknd4)4",
+    "question": "Daniel watches TV every evening. (change to negative)______________",
+    "answer": "Daniel doesn't watch TV every evening."
+  },
+  {
+    "source": "wknd4)5",
+    "question": "We go to school every morning. (change to negative)________________",
+    "answer": "We don't go to school every morning."
+  },
+  {
+    "source": "wknd4)6",
+    "question": "He speaks English very well. (change to negative) _______________",
+    "answer": "He doesn't speak English very well."
+  },
+  {
+    "source": "wknd4)7",
+    "question": "The moon is like a ball. It looks bigger when it is much nearer to the earth. But it is much smaller than the sun. It is smaller than the stars. The light of the moon comes from the sun. It has no light of its own. <br><br>( )The moon is ___ than the stars. A. bigger B. brighter C. smaller D. Darker",
+    "answer": "C"
+  },
+  {
+    "source": "wknd4)8",
+    "question": "The stars look smaller than the sun and the moon. But most of the stars are bigger than the sun. They look small because they are very far away from us. The stars are in the sky all day. But the light from the sun is too bright, so we can't see the stars in the day.   <br><br>( )___________are in the sky all day.  [The sun | The moon | The stars | stars]",
+    "answer": "The stars"
+  },
+  {
+    "source": "Module1)1",
+    "question": "Listen and choose. ( ) A. There is an apple. B. It's an apple. C. There are four.",
+    "answer": "A"
+  },
+  {
+    "source": "Module1)2",
+    "question": "Listen, 'T' or 'F'?. ( ) Miss Fang can make a phone call to her children to ask for help.",
+    "answer": "F"
+  },
+  {
+    "source": "Module1)3",
+    "question": "Listen and write the word. It is _____________",
+    "answer": "Sunday"
+  },
+  {
+    "source": "Module1)4",
+    "question": "Listen and write the word. She is sitting under an _____________",
+    "answer": "umbrella"
+  },
+  {
+    "source": "Module1)5",
+    "question": "[Complete with words in same kind.] here are some apples, _pe_____ and an _or_________ on the table.",
+    "answer": "peaches orange"
+  },
+  {
+    "source": "Module1)6",
+    "question": "[knife come rise boy one have take do] Mr Li _________ a walk on the path after dinner yesterday.",
+    "answer": "took"
+  },
+  {
+    "source": "Module1)7",
+    "question": "[knife come rise boy one have take do] Here _______ a man on an elephant.",
+    "answer": "comes"
+  },
+  {
+    "source": "Module1)8",
+    "question": "I always sit in the sun and have a rest ___________sunny afternoons.  [in | at | on]",
+    "answer": "on"
+  },
+  {
+    "source": "Module1)9",
+    "question": "William________(want) to go to the next town, but he _____(not) know the way.",
+    "answer": "wants doesn't"
+  },
+  {
+    "source": "Module1)10",
+    "question": "William thinks the bird and the stone are a man and _______(ask) some questions. At las the bird ____(fly) away.",
+    "answer": "asks flies"
+  },
+  {
+    "source": "Module1)11",
+    "question": "Some kiwi fruit come from the south of China. The kiwi fruit from the other countries are very expensive. I like the kiwi fruit from China, because the are cheap and also very tasty. Q: Which kiwi fruit do you like, from the south of China or from the other countries? Why?_____________",
+    "answer": "I like kiwi fruit from the south of China. Because they are cheap and also very tasty."
+  },
+  {
+    "source": "Module1)12",
+    "question": "__________morning, the sun rises in the sky. But__________noon, my shadow ____________(grow) short. And ________afternoon, the sun goes down.",
+    "answer": "In the at grows in the"
+  }
+]
