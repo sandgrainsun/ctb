@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-  <style>
+<style>
     #question {
         white-space: pre-wrap;
     }
 </style>
 
+<meta charset="UTF-8">
 <title>Quiz Game</title>
 <script>
 // 题库数据
-const quizData = [
+const quizData =  [
   {
     "source": "wknd1)1",
     "question": "Are the __________(strawberry) sweet or sour?",
@@ -19,12 +19,12 @@ const quizData = [
   },
   {
     "source": "wknd1)2",
-    "question": "A pair of glasses ____on the bed. It’s my mother’s.  [is | are | am]",
+    "question": "A pair of glasses ____on the bed. It’s my mother’s.  \n[is | are | am]",
     "answer": "is"
   },
   {
     "source": "wknd1)3",
-    "question": "I can’t write with the pencil. It’s not__________.  [sharp | hard | blunt]",
+    "question": "I can’t write with the pencil. It’s not__________.  \n[sharp | hard | blunt]",
     "answer": "sharp"
   },
   {
@@ -186,6 +186,26 @@ const quizData = [
     "source": "Module1)12",
     "question": "__________morning, the sun rises in the sky. But__________noon, my shadow ____________(grow) short. And ________afternoon, the sun goes down.",
     "answer": "In the at grows in the"
+  },
+  {
+    "source": "Zonghe2)1",
+    "question": "哪个发音不同：\nA. toe中的oe   B. boat中的oa   C. mouse中的ou   D. poster中的o",
+    "answer": "C"
+  },
+  {
+    "source": "Zonghe2)2",
+    "question": "Taste the _____(图片里画着三个苹果). They are sweet and nice.",
+    "answer": "apples"
+  },
+  {
+    "source": "Zonghe2)3",
+    "question": "选择括号中的词语，以适当的形式填空。(we be swim go like do come)\nMark_____playing cards with his sister.\nThis pair of swimming goggles ____ for my little brother.\nTomorrow is Saturday. Would you like_________to my home?",
+    "answer": "likes is to come"
+  },
+  {
+    "source": "Zonghe2)4",
+    "question": "Paul is playing basketball in the playground. (对is playing basketball提问，每格一次）\n_________Paul__________in the playground.",
+    "answer": "What's doing"
   }
 ];
 
@@ -203,19 +223,25 @@ function speak(text) {
     window.speechSynthesis.speak(speech);
 }
 
+// 标准化输入文本中的引号
+function normalizeQuotes(text) {
+    return text.replace(/['`’]/g, "'").replace(/["“”]/g, '"');
+}
+
 // 提交答案的处理
 function submitAnswer() {
-    const userAnswer = document.getElementById('answer').value;
+    const userAnswer = normalizeQuotes(document.getElementById('answer').value);
     const currentQuestion = remainingQuestions[0]; // 当前题目
+    const normalizedAnswer = normalizeQuotes(currentQuestion.answer);
 
     totalAnswered++;
-    if (userAnswer === currentQuestion.answer) {
+    if (userAnswer === normalizedAnswer) {
         correctAnswers++;
         speak("oh yes!"); // 正确时播放 "oh yes!"
         // 从剩余题目中移除
         remainingQuestions.shift();
     } else {
-        speak("oh no!"); // 正确时播放 "oh no!"
+        speak("oh no!"); // 错误时播放 "oh no!"
         incorrectAnswers++;
         showAnswerDialog(currentQuestion.question, currentQuestion.answer, userAnswer);
     }
