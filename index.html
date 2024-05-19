@@ -4,6 +4,10 @@
 <style>
     #question {
         white-space: pre-wrap;
+        font-size: 16px; /* Question内容的字体大小 */
+    }
+    .small-font {
+        font-size: 14px; /* 比Question内容小两号 */
     }
 </style>
 
@@ -149,7 +153,7 @@ const quizData =  [
   },
   {
     "source": "Module1)5",
-    "question": "[Complete with words in same kind.] here are some apples, _pe_____ and an _or_________ on the table.",
+    "question": "[Complete with words in same kind.] There are some apples, ______(桃子) and an _______(橘子) on the table.",
     "answer": "peaches orange"
   },
   {
@@ -261,7 +265,11 @@ function displayQuestion() {
     const currentQuestion = remainingQuestions[randomIndex];
     // 将选择的题目放到数组的开头
     [remainingQuestions[0], remainingQuestions[randomIndex]] = [currentQuestion, remainingQuestions[0]];
-    document.getElementById('question').textContent = currentQuestion.question;
+
+    // 将题目文本中的 <br> 替换为换行符
+    const formattedQuestion = currentQuestion.question.replace(/<br\s*\/?>/g, '\n');
+    document.getElementById('question').innerHTML = `<span class="small-font">Source: ${currentQuestion.source}</span><br><br>${formattedQuestion}`;
+
     document.getElementById('answer').value = ''; // 清空答案输入框
 }
 
@@ -298,8 +306,8 @@ window.onload = function() {
 </head>
 <body>
 <h2>Quiz Game</h2>
-<p>Total Questions: <span id="totalQuestions">0</span></p>
-<p>Question: <span id="question"></span></p>
+<p class="small-font">Total Questions: <span id="totalQuestions">0</span></p>
+<p id="question"></p>
 <input type="text" id="answer" placeholder="Enter your answer here">
 <button id="submit">Submit Answer</button>
 <h3>Stats</h3>
