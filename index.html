@@ -336,7 +336,14 @@ function updateStats() {
 
 // 显示答案对话框
 function showAnswerDialog(question, correctAnswer, userAnswer) {
-    const message = `Question: ${question}\nCorrect Answer: ${correctAnswer}\nYour Answer: ${userAnswer}`;
+    // 将正确答案和用户答案中的空格替换为星号
+    const correctAnswerMasked = correctAnswer.replace(/\s/g, '*');
+    const userAnswerMasked = userAnswer.replace(/\s/g, '*');
+    
+    // 构建对话框消息
+    const message = `Question: ${question}\nCorr Answer: ${correctAnswerMasked}\nYour Answer: ${userAnswerMasked}`;
+    
+    // 显示对话框
     alert(message);
 }
 
